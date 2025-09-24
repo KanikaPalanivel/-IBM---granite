@@ -1,39 +1,41 @@
-class SmartToDo:
-    def __init__(self):
-        self.tasks = []
+class SmartSDLC:
+    def __init__(self, project_name):
+        self.project_name = project_name
+        self.requirements = []
+        self.design = None
+        self.codebase = ""
+        self.test_results = []
+        self.deployed = False
 
-    def add_task(self, task, due_date=None):
-        self.tasks.append({"task": task, "done": False, "due_date": due_date})
+    def gather_requirements(self):
+        self.requirements = AI_NLP.analyze_sources(["interviews.txt", "surveys.csv"])
+        priority = AI_Sentiment.rank_by_priority(self.requirements)
+        return priority
 
-    def view_tasks(self):
-        for i, t in enumerate(self.tasks, start=1):
-            status = "✅ Done" if t["done"] else "❌ Pending"
-            print(f"{i}. {t['task']} (Due: {t['due_date']}) - {status}")
+    def feasibility_study(self):
+        return AI_Analysis.run_cost_time_risks(self.requirements)
 
-    def complete_task(self, index):
-        if 0 <= index < len(self.tasks):
-            self.tasks[index]["done"] = True
-            print(f"Task '{self.tasks[index]['task']}' marked as done ✅")
-        else:
-            print("Invalid task number!")
+    def system_design(self):
+        self.design = AI_Designer.auto_generate_architecture(self.requirements)
+        return self.design
 
-    def ai_suggest_task(self):
-        """Simple AI: Suggests task with 'urgent' or nearest due date"""
-        if not self.tasks:
-            return "No tasks available!"
-        
-        # Priority by keyword
-        for t in self.tasks:
-            if not t["done"] and "urgent" in t["task"].lower():
-                return f"AI Suggestion: Do this task first 👉 {t['task']}"
-        
-        # Priority by due date
-        pending = [t for t in self.tasks if not t["done"] and t["due_date"]]
-        if pending:
-            # earliest due date
-            pending.sort(key=lambda x: x["due_date"])
-            return f"AI Suggestion: Next task 👉 {pending[0]['task']} (Due {pending[0]['due_date']})"
-        
-        return "AI Suggestion: Finish any pending task."
+    def implement(self):
+        self.codebase = AI_CodeGen.write_code(self.design)
+        return self.codebase
 
+    def test(self):
+        test_cases = AI_Tester.generate_tests(self.codebase)
+        self.test_results = AI_Tester.run_tests(self.codebase, test_cases)
+        return self.test_results
 
+    def deploy(self):
+        if AI_Analysis.is_stable(self.test_results):
+            DevOps.deploy_to_production(self.codebase)
+            self.deployed = True
+        return self.deployed
+
+    def monitor_and_maintain(self):
+        issues = AIOps.monitor_logs("production_env")
+        if issues:
+            AI_Fixer.auto_resolve(issues)
+        return issues
