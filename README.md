@@ -36,27 +36,4 @@ class SmartToDo:
         
         return "AI Suggestion: Finish any pending task."
 
-# ----------------------------
-# Example Usage
-# ----------------------------
-todo = SmartToDo()
-todo.add_task("Finish AI project report - urgent", "2025-09-30")
-todo.add_task("Buy groceries", "2025-09-25")
-todo.add_task("Read SDLC notes")
-
-print("\n📌 All Tasks:")
-todo.view_tasks()
-
-print("\n🤖 AI Suggestion:")
-print(todo.ai_suggest_task())
-
-print("\n✅ Completing Task 2...")
-todo.complete_task(1)
-
-print("\n📌 Updated Task List:")
-todo.view_tasks()
-
-print("\n🤖 AI Suggestion:")
-print(todo.ai_suggest_task())
-
 
